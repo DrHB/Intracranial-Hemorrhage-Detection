@@ -17,7 +17,7 @@ Just intial test with  EfficientNet-B0
 
 ### EXP_00.ipynb
 ```
-MODEL:           EfficientNet-B5
+MODEL:           EfficientNet-B0
 NUM_CLASSES:     6
 BS:              512
 SZ:              224
