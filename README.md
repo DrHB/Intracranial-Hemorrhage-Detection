@@ -9,4 +9,5 @@ In this competition, your challenge is to build an algorithm to detect acute int
 ## Setup
 - Convert Ddicom formant to .png. (Since we are dealing with CT scans its important to select window so far I have been using 40/40 for more details check `src/dicom_to_png.py`) -> After conversion png files are `512x512`
 - One dicom file was corupted please run `src/00_DICOM_PNG.ipynb` to adjust train dataframe
+- We also have to readjust train.csv to match fastai input format for labels using `src/convert_df_to_fastai.ipynb`
 - Resize images to `224x224` using `src/resize_pngs_fast.ipynb` for faster testing
