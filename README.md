@@ -101,6 +101,30 @@ LB SCORE_TTA:    0.074 (SUB_NAME: NB_EXP_10_CV_0_TFL_512_COS_TTA.csv)
 ```
 Comment: Its seems like larger image size trained from the weihgts for images `224` show good LB score 
 
+#### EXP_10_MIXUP
+```
+MODEL:           xresnet50+Attn
+NUM_CLASSES:     6
+BS:              384
+SZ:              224
+VALID:           1 FOLD CV (FOLD=0)
+TFMS:            get_transform()
+PRETRAINED:      False
+NORMALIZE:       Data
+
+TRAINING:        OPT: Radam
+                 Policy: Cosine Anneal 
+                 flattenAnneal(lr=1e-2/2, epoch=25, decay_start=0.7)-Unfrozen
+           
+
+MODEL WEIGHTS:   [NB_EXP_10_CV_0_MIXUP_PHASE_1_COS.pth]
+MODEL TRN_LOSS:  0.092150 	
+MODEL VAL_LOSS:  0.060023 	
+ACCURACY THRES:  0.978396
+LB SCORE:        0.082 (SUB_NAME: NB_EXP_10_CV_0_MIXUP_COS.csv)
+LB SCORE_TTA:    0.073 (SUB_NAME: NB_EXP_10_CV_0_MIXUP_COS_TTA.csv)
+```
+Comment: Training is super slow, Maybe do 20 more epochs 
 
 
 ### EXP_20.ipynb
