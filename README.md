@@ -47,7 +47,7 @@ Comments: Pretrained model trained just OLD DATA gives pretty good results
 Experiment 10 is divided in to 3 sub experiments:
 - `EXP_10` Simple Training of xresnet50 with Simple Attential from scratch
 - `EXP_10_TFL` reusing weights from EXP_10 to train on img size `512`
-- `EXP_19_MixUP` training from scratch to test mixup
+- `EXP_10_MIXUP` training from scratch to test mixup
 
 #### EXP_10
 ```
