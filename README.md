@@ -100,3 +100,29 @@ LB SCORE:        0.076 (SUB_NAME: NB_EXP_10_CV_0_TFL_512_COS.csv)
 LB SCORE_TTA:    0.074 (SUB_NAME: NB_EXP_10_CV_0_TFL_512_COS_TTA.csv)
 ```
 Comment: Its seems like larger image size show good LB score 
+
+
+
+### EXP_20.ipynb
+ ```
+ MODEL:           Res2Net50
+ NUM_CLASSES:     6
+ BS:              384
+ SZ:              224
+ VALID:           1 FOLD CV (FOLD=0)
+ TFMS:            get_transform()
+ PRETRAINED:      False
+ NORMALIZE:       Data
+
+ TRAINING:        OPT: Radam
+                  Policy: Cosine Anneal 
+                  flattenAnneal(lr=1e-3/8, epoch=20, decay_start=0.7)-Unfrozen
+
+ MODEL WEIGHTS:   [NB_EXP_20_CV_0_PHASE_2_COS.pth]
+ MODEL TRN_LOSS:  0.053704
+ MODEL VAL_LOSS:  0.059312
+ ACCURACY THRES:  0.978431
+ LB SCORE:        0.084 (SUB_NAME: NB_EXP_20_CV_0_COS.csv)
+ LB SCORE_TTA:    0.079 (SUB_NAME: NB_EXP_20_CV_0_COS_TTA.csv)
+ ```
+ Comments: Training from scratch shows similar results
