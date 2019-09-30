@@ -99,7 +99,7 @@ ACCURACY THRES:  0.979957
 LB SCORE:        0.076 (SUB_NAME: NB_EXP_10_CV_0_TFL_512_COS.csv)
 LB SCORE_TTA:    0.074 (SUB_NAME: NB_EXP_10_CV_0_TFL_512_COS_TTA.csv)
 ```
-Comment: Its seems like larger image size show good LB score 
+Comment: Its seems like larger image size trained from the weihgts for images `224` show good LB score 
 
 
 
