@@ -169,3 +169,5 @@ x509.genkey
 /models/*.pth
 /*.pyc
 
+**/.DS_Store
+/.DS_Store
