@@ -150,3 +150,32 @@ Comment: Training is super slow, Maybe do 20 more epochs
  LB SCORE_TTA:    0.079 (SUB_NAME: NB_EXP_20_CV_0_COS_TTA.csv)
  ```
  Comments: Training from scratch shows similar results
+
+
+
+### EXP_30.ipynb
+ ```
+ MODEL:           resnext50_32x4d
+ NUM_CLASSES:     6
+ BS:              512
+ SZ:              224
+ VALID:           1 FOLD CV (FOLD=0)
+ TFMS:            get_transform() + [max_zoom = 1.4, xtra_tfms=cutout(n_holes=(4,20), length=(2, 30), p=0.5))]
+ PRETRAINED:      True
+ NORMALIZE:       Imagenet
+
+ TRAINING:       OPT: Adam
+                 fit_one_cycle(lr=1e-2, epoch=10)-Everything Frozen Except Last Layer
+                 
+                 OPT: Radam
+                 Policy: Cosine Anneal 
+                 flattenAnneal(lr=1e-4, epoch=30, decay_start=0.7)-Unfrozen
+
+ MODEL WEIGHTS:   [NB_EXP_20_CV_0_PHASE_2_COS.pth]
+ MODEL TRN_LOSS:  0.053704
+ MODEL VAL_LOSS:  0.059312
+ ACCURACY THRES:  0.978431
+ LB SCORE:        0.084 (SUB_NAME: NB_EXP_20_CV_0_COS.csv)
+ LB SCORE_TTA:    0.079 (SUB_NAME: NB_EXP_20_CV_0_COS_TTA.csv)
+ ```
+ Comments: Here I tried to add cutout augmentation and traind a bit longer to see if this has some effects 
