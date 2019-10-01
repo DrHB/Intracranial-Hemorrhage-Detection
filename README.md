@@ -16,7 +16,7 @@ In this competition, your challenge is to build an algorithm to detect acute int
 | EXP_10_MIXUP| xresnet50      | False     | Attention+Mixup | 224| 0.978396 | 0.082| 0.073 |   |
 | EXP_10_MIXUP  | xresnet50      | False     | Attention+Mixup | 224| 0.979283 | 0.084| 0.074 | Same as above but trained a bi longer |
 | EXP_20        | Res2Net50      | False     |                 | 224| 0.978431 | 0.084| 0.079 |  |
-| EXP_30        | Resnext50      | True      |                 | 224| 0.978431 | 0.084| 0.079 | added cutout, zoom_rand=1.4 |
+| EXP_30        | Resnext50      | True      |                 | 224| 0.980641 | 0.095| 0.079 | added cutout, zoom_rand=1.4 |
 
 
 
@@ -198,11 +198,11 @@ Bassicly slow training, improvement are very small... maybe need to train more..
                  Policy: Cosine Anneal 
                  flattenAnneal(lr=1e-4, epoch=30, decay_start=0.7)-Unfrozen
 
- MODEL WEIGHTS:   [NB_EXP_20_CV_0_PHASE_2_COS.pth]
- MODEL TRN_LOSS:  0.053704
- MODEL VAL_LOSS:  0.059312
- ACCURACY THRES:  0.978431
- LB SCORE:        0.084 (SUB_NAME: NB_EXP_20_CV_0_COS.csv)
- LB SCORE_TTA:    0.079 (SUB_NAME: NB_EXP_20_CV_0_COS_TTA.csv)
+ MODEL WEIGHTS:   [NB_EXP_30_CV_0_224_PHASE_1_COS.pth]
+ MODEL TRN_LOSS:  0.045051
+ MODEL VAL_LOSS:  0.054926
+ ACCURACY THRES:  0.980641
+ LB SCORE:        0.095 (SUB_NAME: NB_EXP_30_CV_0_224_COS.csv)
+ LB SCORE_TTA:    0.079 (SUB_NAME: NB_EXP_30_CV_0_224_COS_TTA.csv)
  ```
  Comments: Here I tried to add cutout augmentation and traind a bit longer to see if this has some effects 
