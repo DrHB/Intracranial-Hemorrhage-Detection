@@ -8,15 +8,15 @@ In this competition, your challenge is to build an algorithm to detect acute int
 
 ## Summary 
 
-| Name             | Network        | Add           |Img           | Accuracy| LB  | LB_TTA   | Comments |
-| -------------    | -------------  | ------------- |------------- | ------------- |  ------- |  ------------| --------|
-| EXP_00           | EfficientNetB0 | | 224| 0.978539 |0.086| 0.078 |   |
-| EXP_10           | xresnet50      | Attention | 224| 0.980156 |0.090| 0.079 |   |
-| EXP_10_TFL       | xresnet50      | Attention | 512| 0.979957 | 0.076| 0.074 |   |
-| **EXP_10_MIXUP** | **xresnet50**  | **Attention+Mixup** | **224**| **0.978396** | **0.082**| **0.073** |   |
-| EXP_10_MIXUP     | xresnet50 | Attention+Mixup | 224| 0.979283 | 0.084| 0.074 | Same as above but trained a bi longer |
-| EXP_20           | Res2Net50 | | 224| 0.978431 | 0.084| 0.079 |  |
-| EXP_30           | Resnext50 | | 224| 0.978431 | 0.084| 0.079 | added cutout, zoom_rand=1.4 |
+| Name          | Network        | Pretrained        | Add              |Img           | Accuracy| LB  | LB_TTA   | Comments |
+| ------------- | -------------  | -------------  | -------------   |------------- | ------------- |  ------- |  ------------| --------|
+| EXP_00        | EfficientNetB0 | True |                 | 224| 0.978539 |0.086| 0.078 |   |
+| EXP_10        | xresnet50      | False     | Attention       | 224| 0.980156 |0.090| 0.079 |   |
+| EXP_10_TFL    | xresnet50      | False     | Attention       | 512| 0.979957 | 0.076| 0.074 |   |
+| EXP_10_MIXUP| xresnet50      | False     | Attention+Mixup | 224| 0.978396 | 0.082| 0.073 |   |
+| EXP_10_MIXUP  | xresnet50      | False     | Attention+Mixup | 224| 0.979283 | 0.084| 0.074 | Same as above but trained a bi longer |
+| EXP_20        | Res2Net50      | False     |                 | 224| 0.978431 | 0.084| 0.079 |  |
+| EXP_30        | Resnext50      | True      |                 | 224| 0.978431 | 0.084| 0.079 | added cutout, zoom_rand=1.4 |
 
 
 
