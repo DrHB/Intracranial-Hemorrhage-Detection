@@ -124,9 +124,21 @@ ACCURACY THRES:  0.978396
 LB SCORE:        0.082 (SUB_NAME: NB_EXP_10_CV_0_MIXUP_COS.csv)
 LB SCORE_TTA:    0.073 (SUB_NAME: NB_EXP_10_CV_0_MIXUP_COS_TTA.csv)
 ```
-Comment: Training is super slow, Maybe do 20 more epochs 
+Comment: Training is super slow, Maybe do 20 more epochs (see below)
 
-
+```
+TRAINING:        OPT: Adap
+                 Policy: One Cycle
+                 fit_one_cycle(30, lr =1e-3/2)
+           
+MODEL WEIGHTS:   [NB_EXP_10_CV_0_MIXUP_PHASE_2_1CYL.pth]
+MODEL TRN_LOSS:  0.086897 	
+MODEL VAL_LOSS:  0.057901 	
+ACCURACY THRES:  0.979283
+LB SCORE:        0.084 (SUB_NAME: NB_EXP_10_CV_0_MIXUP_PHASE_2_1CYL.csv)
+LB SCORE_TTA:    0.074 (SUB_NAME: NB_EXP_10_CV_0_MIXUP_PHASE_2_1CYL_TTA.csv)
+```
+Bassicly slow training, improvement are very small... maybe need to train more... good for diversity later on
 ### EXP_20.ipynb
  ```
  MODEL:           Res2Net50
