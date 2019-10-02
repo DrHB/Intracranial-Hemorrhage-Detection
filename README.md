@@ -216,6 +216,8 @@ EXP_40 will be done using 3 channel images with background substraction. I will 
 
 ![Alt text](src/processing_example.png?raw=true "Title"){:height="700px" width="400px"}
 
+<img src="https://github.com/DrHB/Intracranial-Hemorrhage-Detection/blob/master/src/processing_example.png" width="100" height="100">
+
 
 
 #### EXP_40
