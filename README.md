@@ -214,6 +214,8 @@ So far I have been processing data using `window center =40` , `window height = 
 
 EXP_40 will be done using 3 channel images with background substraction. I will be using wights `NB_EXP_10_CV_0_MIXUP_PHASE_2_1CYL` from the `EXP_10_MIXUP`
 
+![Alt text](src/processing_example.png?raw=true "Title")
+
 
 
 #### EXP_40
