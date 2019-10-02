@@ -17,6 +17,7 @@ In this competition, your challenge is to build an algorithm to detect acute int
 | EXP_10_MIXUP  | xresnet50      | False     | Attention+Mixup | 224| 0.979283 | 0.084| 0.074 | Same as above but trained a bi longer |
 | EXP_20        | Res2Net50      | False     |                 | 224| 0.978431 | 0.084| 0.079 |  |
 | EXP_30        | Resnext50      | True      |                 | 224| 0.980641 | 0.095| 0.079 | added cutout, zoom_rand=1.4 |
+| EXP_40| xresnet50      | False     | Attention | 224|  | | |  3 channel diffrent windows, background substractued, trained using `EXP_10_MIXUP` weights|
 
 
 
@@ -27,7 +28,7 @@ In this competition, your challenge is to build an algorithm to detect acute int
 - We also have to readjust train.csv to match fastai input format for labels using `src/convert_df_to_fastai.ipynb`
 - Resize images to `224x224` using `src/resize_pngs_fast.ipynb` for faster testing
 
-# EXP_00
+### EXP_00
 Just intial test with  EfficientNet-B0
 
 ### EXP_00.ipynb
@@ -206,3 +207,34 @@ Bassicly slow training, improvement are very small... maybe need to train more..
  LB SCORE_TTA:    0.079 (SUB_NAME: NB_EXP_30_CV_0_224_COS_TTA.csv)
  ```
  Comments: Here I tried to add cutout augmentation and traind a bit longer to see if this has some effects 
+ 
+ 
+ ### DATA processing 
+So far I have been processing data using `window center =40` , `window height = 80` (check for more detauls 'src/dicom_to_png.py') Unfortenelty it seems like this is not optimal window (see more info: https://www.kaggle.com/dcstang/see-like-a-radiologist-with-systematic-windowing) it seems like for some kind of brain damage the best windowns are `window center =80` , `window height = 200`. Since when doctor check he goes thru diffrent rages. In order to mimic human experience also incorporate windo information I will do following. Make 3 channel RGB Image with 3 diffrent windo sizes `40/80`, `80/200` and very wide `200/450`. When doing this I also notice that there is also a lot of black backround. To remove black background and convert images to 3 channel from dicom files use script `src/dicom_to_png_3chn_bg.py`
+
+EXP_40 will be done using 3 channel images with background substraction. I will be using wights `NB_EXP_10_CV_0_MIXUP_PHASE_2_1CYL` from the `EXP_10_MIXUP`
+
+
+#### EXP_40
+```
+MODEL:           xresnet50+Attn
+NUM_CLASSES:     6
+BS:              384
+SZ:              224
+VALID:           1 FOLD CV (FOLD=0)
+TFMS:            get_transform()
+PRETRAINED:      True (NB_EXP_10_CV_0_MIXUP_PHASE_2_1CYL)
+NORMALIZE:       Data
+
+TRAINING:        OPT: Radam
+                 Policy: Cosine Anneal 
+                 flattenAnneal(lr=1e-3, epoch=25, decay_start=0.7)-Unfrozen
+           
+
+MODEL WEIGHTS:   [NB_EXP_40_CV_0_TFL_224_BGS_PHASE_1_COS.pth]
+MODEL TRN_LOSS:  0.092150 	
+MODEL VAL_LOSS:  0.060023 	
+ACCURACY THRES:  0.978396
+LB SCORE:         (SUB_NAME: NB_EXP_10_CV_0_MIXUP_COS.csv)
+LB SCORE_TTA:     (SUB_NAME: NB_EXP_10_CV_0_MIXUP_COS_TTA.csv)
+```
