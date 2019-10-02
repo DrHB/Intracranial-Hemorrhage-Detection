@@ -158,16 +158,17 @@ x509.genkey
 /train_labels_as_strings.csv
 /nano.save
 /nano.save.1
-/EXP_00/*.csv
-/EXP_00/*.joblib
-/EXP_10/*.csv
-/EXP_10/*.joblib
-/EXP_20/*.csv
-/EXP_20/*.joblib
-/EXP_30/*.csv
-/EXP_30/*.joblib
+/EXP_*/*.csv
+/EXP_*/*.joblib
+/EXP*/*.pyc
+/EXP*/__pycache__
 /models/*.pth
 /*.pyc
 
 **/.DS_Store
 /.DS_Store
+/test_images_3chn_bg
+/train_images_3chn_bg
+/test_images__3chn_bg_224
+/train_images__3chn_bg_224
+

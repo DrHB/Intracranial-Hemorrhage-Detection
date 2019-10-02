@@ -56,6 +56,7 @@ def crop_image_only_outside(img,tol=0):
     '''
     https://codereview.stackexchange.com/questions/132914/crop-black-border-of-image-using-numpy/132934
     '''
+    
     mask = img>tol
     if img.ndim==3:
         mask = mask.all(2)
@@ -67,14 +68,14 @@ def crop_image_only_outside(img,tol=0):
 
 
 def normalized_data(x):
-    return (x-np.min(x))/(np.max(x)-np.min(x))*255 
+    return (x-np.min(x))/((np.max(x)-np.min(x))+1e-8)*255 
 
 def convert_to_png(dcm_in, _, dir_img):
     
     #returning each channel as a slice 
-    img = [return_single_wd(fn, wc=40, ww=80), 
-           return_single_wd(fn, wc=80, ww=200), 
-           return_single_wd(fn, wc=200,ww=450)]
+    img = [return_single_wd(dcm_in, wc=40, ww=80), 
+           return_single_wd(dcm_in, wc=80, ww=200), 
+           return_single_wd(dcm_in, wc=200,ww=450)]
     
 
     #normalizing each channel (between 0 - 1 *255)
@@ -82,14 +83,26 @@ def convert_to_png(dcm_in, _, dir_img):
     
     img = list(map(normalized_data, img))
     
-    k = np.zeros((512, 512, 3))
-    k[:,:, 0] = img[0] #192
-    k[:,:, 1] = img[1] #128
-    k[:,:, 2] = img[2] #64
-    
+    try:
+        k = np.zeros((512, 512, 3))
+        k[:,:, 0] = img[0] #192
+        k[:,:, 1] = img[1] #128
+        k[:,:, 2] = img[2] #64
+    except:
+        #in case shape is diffrent than 512, 512 
+        w, h = img[0].shape
+        k = np.zeros((w, h, 3))
+        k[:,:, 0] = img[0] #192
+        k[:,:, 1] = img[1] #128
+        k[:,:, 2] = img[2] #64
+        
     #croping image on outside to remove black background and returning PIL
-    #img = PIL.Image.fromarray(k.astype('uint8'))
-    img = PIL.Image.fromarray(crop_image_only_outside(k).astype('uint8'))
+    try:
+        img = PIL.Image.fromarray(crop_image_only_outside(k).astype('uint8'))
+    except:
+        #if everhting black it will just save
+        img = PIL.Image.fromarray(k.astype('uint8'))
+        
     img.save(os.path.join(dir_img, os.path.basename(dcm_in)[:-3] + 'png'), quality=95)
     
 
