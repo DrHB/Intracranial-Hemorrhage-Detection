@@ -17,7 +17,7 @@ In this competition, your challenge is to build an algorithm to detect acute int
 | EXP_10_MIXUP  | xresnet50      | False     | Attention+Mixup | 224| 0.979283 | 0.084| 0.074 | Same as above but trained a bi longer |
 | EXP_20        | Res2Net50      | False     |                 | 224| 0.978431 | 0.084| 0.079 |  |
 | EXP_30        | Resnext50      | True      |                 | 224| 0.980641 | 0.095| 0.079 | added cutout, zoom_rand=1.4 |
-| EXP_40| xresnet50      | True     | Attention | 224| 0.980348 | 0.083 | |  3 channel diffrent windows, background substractued, trained using `EXP_10_MIXUP` weights|
+| EXP_40| xresnet50      | True     | Attention | 224| 0.980348 | 0.083 | 0.074 |  3 channel diffrent windows, background substractued, trained using `EXP_10_MIXUP` weights|
 
 
 
@@ -240,5 +240,5 @@ MODEL TRN_LOSS:  0.045853
 MODEL VAL_LOSS:  0.054660	
 ACCURACY THRES:  0.980348
 LB SCORE:        0.083 (SUB_NAME: NB_EXP_40_CV_0_TFL_224_BGS_PHASE_2_COS.csv)
-LB SCORE_TTA:     (SUB_NAME: NB_EXP_10_CV_0_MIXUP_COS_TTA.csv)
+LB SCORE_TTA:    0.074 (SUB_NAME: NB_EXP_40_CV_0_TFL_224_BGS_PHASE_2_COS_TTA.csv)
 ```
