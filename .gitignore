@@ -173,3 +173,5 @@ x509.genkey
 /train_images__3chn_bg_224
 
 /ENS
+/test_images__3chn_bg_300
+/train_images__3chn_bg_300
