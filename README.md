@@ -261,3 +261,11 @@ ACCURACY THRES:  0.980348
 LB SCORE:        0.083 (SUB_NAME: NB_EXP_40_CV_0_TFL_224_BGS_PHASE_2_COS.csv)
 LB SCORE_TTA:    0.074 (SUB_NAME: NB_EXP_40_CV_0_TFL_224_BGS_PHASE_2_COS_TTA.csv)
 ```
+
+ ### DATA processing 
+ 
+it seems like there is a multiple ways to process the windows:
+
+1) ranges to normalize images: -50–150, 100–300 and 250–450. The first HU range was chosen to boost the difference between hemorrhage regions and normal tissues (supplement https://rd.springer.com/content/pdf/10.1007%2Fs00330-019-06163-2.pdf)
+
+2) Windows used were brain window (l = 40, w = 80), bone window (l = 500, w = 3000) and subdural window (l = 175, w = 50) https://arxiv.org/pdf/1803.05854.pdf
