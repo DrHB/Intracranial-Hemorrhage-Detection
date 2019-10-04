@@ -15,6 +15,7 @@ In this competition, your challenge is to build an algorithm to detect acute int
 | EXP_10_TFL    | xresnet50      | False     | Attention       | 512| 0.979957 | 0.076| 0.074 |   |
 | EXP_10_MIXUP| xresnet50      | False     | Attention+Mixup | 224| 0.978396 | 0.082| 0.073 |   |
 | EXP_10_MIXUP  | xresnet50      | False     | Attention+Mixup | 224| 0.979283 | 0.084| 0.074 | Same as above but trained a bi longer |
+| EXP_10_MIXUP_TFL_512  | xresnet50      | True     | Attention+Mixup | 512| 0.980179 | 0.077| 0.074 | Trained on higher image size and did transfer learning  |
 | EXP_20        | Res2Net50      | False     |                 | 224| 0.978431 | 0.084| 0.079 |  |
 | EXP_30        | Resnext50      | True      |                 | 224| 0.980641 | 0.095| 0.079 | added cutout, zoom_rand=1.4 |
 | EXP_40| xresnet50      | True     | Attention | 224| 0.980348 | 0.083 | 0.074 |  3 channel diffrent windows, background substractued, trained using `EXP_10_MIXUP` weights|
@@ -155,6 +156,24 @@ LB SCORE:        0.084 (SUB_NAME: NB_EXP_10_CV_0_MIXUP_PHASE_2_1CYL.csv)
 LB SCORE_TTA:    0.074 (SUB_NAME: NB_EXP_10_CV_0_MIXUP_PHASE_2_1CYL_TTA.csv)
 ```
 Bassicly slow training, improvement are very small... maybe need to train more... good for diversity later on
+
+#### EXP_10_MIXUP_TFL_512
+just some finutning using images 512 and with mixup and attention. Weith used for inititlization `NB_EXP_10_CV_0_MIXUP_PHASE_2_1CYL` 
+
+```
+TRAINING:        OPT: Radam
+                 Policy: Cosine Anneal 
+                 flattenAnneal(lr=1e-2/2, epoch=25, decay_start=0.7)-Unfrozen
+     
+MODEL WEIGHTS:   [NB_EXP_10_CV_0_MIXUP_TFL_512_PHASE_1_COS.pth]
+MODEL TRN_LOSS:  0.086444 	
+MODEL VAL_LOSS:  0.057901 	
+ACCURACY THRES:  0.054722
+LB SCORE:        0.077 (SUB_NAME: NB_EXP_10_CV_0_MIXUP_TFL_512_PHASE_2_1CYL.csv)
+LB SCORE_TTA:     (SUB_NAME: NB_EXP_10_CV_0_MIXUP_TFL_512_PHASE_2_1CYL_TTA.csv)
+```
+Training stop att the epoch 12. I did not continue training further 
+
 ### EXP_20.ipynb
  ```
  MODEL:           Res2Net50
