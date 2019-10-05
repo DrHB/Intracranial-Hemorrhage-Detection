@@ -19,8 +19,8 @@ In this competition, your challenge is to build an algorithm to detect acute int
 | EXP_20                | Res2Net50      | False            |                 | 224| 40/80                 | 0.978431 |0.084  | 0.079 |  |
 | EXP_30                | Resnext50      | True             |                 | 224| 40/80                 | 0.980641 |0.095  | 0.079 | added cutout, zoom_rand=1.4 |
 | EXP_40                | xresnet50      | True             | Attention       | 224| 40/80, 80/200, 200/450                 | 0.980348 |0.083  | 0.074 |  3 channel diffrent windows, background substractued, trained using `EXP_10_MIXUP` weights|
-| EXP_50                | EfficientNetB3  | True | weighted loss  | 300| 40/80, 80/200, 200/450  | 0.979881 |0.076|  | 0.074 | |
-| EXP_60    | Res2Net50      | True           |   | 300| 40/80, 50/175, 500/3000  | 0.980348 |0.083  | 0.074 | |
+| EXP_50                | EfficientNetB3  | True | weighted loss  | 300| 40/80, 80/200, 200/450  | 0.979881 |0.076| 0.071 |  ||
+| EXP_60    | Res2Net50      | True           |   | 300| 40/80, 50/175, 500/3000  | 0.980367 |0.082  | 0.072 | |
 
 ## Setup
 - Convert Ddicom formant to .png. (Since we are dealing with CT scans its important to select window so far I have been using 40/40 for more details check `src/dicom_to_png.py`) -> After conversion png files are `512x512`
@@ -319,9 +319,9 @@ TRAINING:        OPT: Radam
            
 
 MODEL WEIGHTS:   [NB_EXP_60_CV_6_224_PHASE_1_COS.pth]
-MODEL TRN_LOSS:  0.045853 	
-MODEL VAL_LOSS:  0.054660	
-ACCURACY THRES:  0.980348
-LB SCORE:         (SUB_NAME: NB_EXP_40_CV_0_TFL_224_BGS_PHASE_2_COS.csv)
-LB SCORE_TTA:     (SUB_NAME: NB_EXP_40_CV_0_TFL_224_BGS_PHASE_2_COS_TTA.csv)
+MODEL TRN_LOSS:  0.046806 	
+MODEL VAL_LOSS:  0.054757	
+ACCURACY THRES:  0.980367
+LB SCORE:        0.082 (SUB_NAME: NB_EXP_60_CV_6_224_PHASE_1_COS.csv)
+LB SCORE_TTA:    0.072 (SUB_NAME: NB_EXP_60_CV_6_224_PHASE_1_COS_TTA.csv)
 ```
