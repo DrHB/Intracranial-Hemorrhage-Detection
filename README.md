@@ -20,6 +20,7 @@ In this competition, your challenge is to build an algorithm to detect acute int
 | EXP_30                | Resnext50      | True             |                 | 224| 40/80                 | 0.980641 |0.095  | 0.079 | added cutout, zoom_rand=1.4 |
 | EXP_40                | xresnet50      | True             | Attention       | 224| 40/80, 80/200, 200/450                 | 0.980348 |0.083  | 0.074 |  3 channel diffrent windows, background substractued, trained using `EXP_10_MIXUP` weights|
 | EXP_50                | EfficientNetB3      | True           |   | 300| 40/80, 80/200, 200/450  | 0.980348 |0.083  | 0.074 | |
+| EXP_60    | Res2Net50      | True           |   | 300| 40/80, 50/175, 500/3000  | 0.980348 |0.083  | 0.074 | |
 
 ## Setup
 - Convert Ddicom formant to .png. (Since we are dealing with CT scans its important to select window so far I have been using 40/40 for more details check `src/dicom_to_png.py`) -> After conversion png files are `512x512`
@@ -226,7 +227,7 @@ Training stop att the epoch 12. I did not continue training further
  Comments: Here I tried to add cutout augmentation and traind a bit longer to see if this has some effects 
  
  
- ### DATA processing 
+ ### DATA processing -1
 So far I have been processing data using `window center =40` , `window height = 80` (check for more detauls 'src/dicom_to_png.py') Unfortenelty it seems like this is not optimal window (see more info: https://www.kaggle.com/dcstang/see-like-a-radiologist-with-systematic-windowing) it seems like for some kind of brain damage the best windowns are `window center =80` , `window height = 200`. Since when doctor check he goes thru diffrent rages. In order to mimic human experience also incorporate windo information I will do following. Make 3 channel RGB Image with 3 diffrent windo sizes `40/80`, `80/200` and very wide `200/450`. When doing this I also notice that there is also a lot of black backround. To remove black background and convert images to 3 channel from dicom files use script `src/dicom_to_png_3chn_bg.py`
 
 EXP_40 will be done using 3 channel images with background substraction. I will be using wights `NB_EXP_10_CV_0_MIXUP_PHASE_2_1CYL` from the `EXP_10_MIXUP`
@@ -295,4 +296,32 @@ it seems like there is a multiple ways to process the windows:
 
 1) ranges to normalize images: -50–150, 100–300 and 250–450. The first HU range was chosen to boost the difference between hemorrhage regions and normal tissues (supplement https://rd.springer.com/content/pdf/10.1007%2Fs00330-019-06163-2.pdf)
 
-2) Windows used were brain window (l = 40, w = 80), bone window (l = 500, w = 3000) and subdural window (l = 175, w = 50) https://arxiv.org/pdf/1803.05854.pdf
+
+
+### DATA processing -2
+This time I am using diffrent windows to process images, indows used were brain window (l = 40, w = 80), subdural window (l = 50, w = 175), bone window (l = 500, w = 3000) https://arxiv.org/pdf/1803.05854.pdf. The script located here: `src/dicom_to_png_3chn_sasanak.py`. Also this time I did `10` fold split and using fold `6` to train.
+
+#### EXP_60
+
+```
+MODEL:           res2net
+NUM_CLASSES:     6
+BS:              368
+SZ:              224
+VALID:           1 FOLD CV (FOLD=6) (10 Folds)
+TFMS:            get_transform()
+PRETRAINED:      False 
+NORMALIZE:       Data Stats
+
+TRAINING:        OPT: Radam
+                 Policy: Cosine Anneal 
+                 flattenAnneal(lr=0.004, epoch=30, decay_start=0.7)-Unfrozen
+           
+
+MODEL WEIGHTS:   [NB_EXP_60_CV_6_224_PHASE_1_COS.pth]
+MODEL TRN_LOSS:  0.045853 	
+MODEL VAL_LOSS:  0.054660	
+ACCURACY THRES:  0.980348
+LB SCORE:         (SUB_NAME: NB_EXP_40_CV_0_TFL_224_BGS_PHASE_2_COS.csv)
+LB SCORE_TTA:     (SUB_NAME: NB_EXP_40_CV_0_TFL_224_BGS_PHASE_2_COS_TTA.csv)
+```
