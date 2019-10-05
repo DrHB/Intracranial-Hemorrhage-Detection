@@ -20,7 +20,7 @@ In this competition, your challenge is to build an algorithm to detect acute int
 | EXP_30                | Resnext50      | True             |                 | 224| 40/80                 | 0.980641 |0.095  | 0.079 | added cutout, zoom_rand=1.4 |
 | EXP_40                | xresnet50      | True             | Attention       | 224| 40/80, 80/200, 200/450                 | 0.980348 |0.083  | 0.074 |  3 channel diffrent windows, background substractued, trained using `EXP_10_MIXUP` weights|
 
-
+| EXP_50                | EfficientNetB3      | True           |   | 300| 40/80, 80/200, 200/450  | 0.980348 |0.083  | 0.074 | |
 
 ## Setup
 - Convert Ddicom formant to .png. (Since we are dealing with CT scans its important to select window so far I have been using 40/40 for more details check `src/dicom_to_png.py`) -> After conversion png files are `512x512`
@@ -261,6 +261,35 @@ LB SCORE:        0.083 (SUB_NAME: NB_EXP_40_CV_0_TFL_224_BGS_PHASE_2_COS.csv)
 LB SCORE_TTA:    0.074 (SUB_NAME: NB_EXP_40_CV_0_TFL_224_BGS_PHASE_2_COS_TTA.csv)
 ```
 
+looks promising for the blend. There is still an issue that gap between LB and CV is so huge
+
+
+#### EXP_50
+So in this experiment, I will try to use `10` fold cv and images processed using `src/dicom_to_png_3chn_bg.py` and rescaled to size of `300`
+```
+MODEL:           EfficientNetB0
+NUM_CLASSES:     6
+BS:              380
+SZ:              300
+VALID:           1 FOLD CV (FOLD=0) (10 Folds)
+TFMS:            get_transform()
+PRETRAINED:      True (Imagenet Stats)
+NORMALIZE:       Data
+
+TRAINING:        OPT: Radam
+                 Policy: Cosine Anneal 
+                 flattenAnneal(lr=0.004, epoch=15, decay_start=0.4)-Unfrozen
+           
+
+MODEL WEIGHTS:   [NB_EXP_50_CV_0_300_PHASE_1_COS.pth]
+MODEL TRN_LOSS:  0.045853 	
+MODEL VAL_LOSS:  0.054660	
+ACCURACY THRES:  0.980348
+LB SCORE:         (SUB_NAME: NB_EXP_40_CV_0_TFL_224_BGS_PHASE_2_COS.csv)
+LB SCORE_TTA:     (SUB_NAME: NB_EXP_40_CV_0_TFL_224_BGS_PHASE_2_COS_TTA.csv)
+```
+
+looks promising for the blend. There is still an issue that gap between LB and CV is so huge
  ### DATA processing 
  
 it seems like there is a multiple ways to process the windows:
