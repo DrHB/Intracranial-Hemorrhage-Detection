@@ -20,7 +20,9 @@ In this competition, your challenge is to build an algorithm to detect acute int
 | EXP_30                | Resnext50      | True             |                 | 224| 40/80                 | 0.980641 |0.095  | 0.079 | added cutout, zoom_rand=1.4 |
 | EXP_40                | xresnet50      | True             | Attention       | 224| 40/80, 80/200, 200/450                 | 0.980348 |0.083  | 0.074 |  3 channel diffrent windows, background substractued, trained using `EXP_10_MIXUP` weights|
 | EXP_50                | EfficientNetB3  | True | weighted loss  | 300| 40/80, 80/200, 200/450  | 0.979881 |0.076| 0.071 |  ||
-| EXP_60    | Res2Net50      | True           |   | 300| 40/80, 50/175, 500/3000  | 0.980367 |0.082  | 0.072 | |
+| EXP_60    | Res2Net50      | True           |   | 224| 40/80, 50/175, 500/3000  | 0.980367 |0.082  | 0.072 | |
+| EXP_70    | xresnet50      | False           | Attn  | 300| 40/80, 50/175, 500/3000  |  |  |  | |
+| EXP_80    | xresnet50      | False           |   | 224| 40/80, 80/200, 200/450   |  ||  | |
 
 ## Setup
 - Convert Ddicom formant to .png. (Since we are dealing with CT scans its important to select window so far I have been using 40/40 for more details check `src/dicom_to_png.py`) -> After conversion png files are `512x512`
@@ -290,6 +292,35 @@ LB SCORE_TTA:     (SUB_NAME: NB_EXP_50_CV_0_300_PHASE_1_COS_TTA.csv.csv)
 ```
 
 looks promising for the blend. There is still an issue that gap between LB and CV is so huge
+
+
+
+#### EXP_80
+Using same data processing as for `src/dicom_to_png_3chn_bg.py`. But this time i am using weights. My mistake was that i used `pos_weights` in Pytorch BCE, but instead I should use just `weights` and pass `weights = torch.FloatTensor([2, 1, 1, 1, 1, 1]).cuda()`. I am traying `xresnet50`.
+
+```
+MODEL:           xresnet50
+NUM_CLASSES:     6
+BS:              480
+SZ:              224
+VALID:           1 FOLD CV (FOLD=6) (10 Fold)
+TFMS:            get_transforms(max_rotate=180, flip_vert=True, max_zoom=1.4)
+PRETRAINED:      False 
+NORMALIZE:       Data
+
+TRAINING:        OPT: Radam
+                 Policy: Cosine Anneal 
+                 flattenAnneal(lr=0.002, epoch=50, decay_start=0.7)-Unfrozen
+           
+
+MODEL WEIGHTS:   [NB_EXP_80_CV_0_224_PHASE_1_COS.pth]
+MODEL TRN_LOSS:  0.045853 	
+MODEL VAL_LOSS:  0.054660	
+ACCURACY THRES:  0.980348
+LB SCORE:         (SUB_NAME: NB_EXP_40_CV_0_TFL_224_BGS_PHASE_2_COS.csv)
+LB SCORE_TTA:     (SUB_NAME: NB_EXP_40_CV_0_TFL_224_BGS_PHASE_2_COS_TTA.csv)
+```
+
  ### DATA processing 
  
 it seems like there is a multiple ways to process the windows:
@@ -324,4 +355,29 @@ MODEL VAL_LOSS:  0.054757
 ACCURACY THRES:  0.980367
 LB SCORE:        0.082 (SUB_NAME: NB_EXP_60_CV_6_224_PHASE_1_COS.csv)
 LB SCORE_TTA:    0.072 (SUB_NAME: NB_EXP_60_CV_6_224_PHASE_1_COS_TTA.csv)
+```
+
+#### EXP_70
+Using same data processing as for EXP_60. But this time i am using weights. My mistake was that i used `pos_weights` in Pytorch BCE, but instead I should use just `weights` and pass `weights = torch.FloatTensor([2, 1, 1, 1, 1, 1]).cuda()`. I am traying `xresnet50` with Attention. 
+```
+MODEL:           xresnet50+Attn
+NUM_CLASSES:     6
+BS:              480
+SZ:              224
+VALID:           1 FOLD CV (FOLD=0) (10 Fold)
+TFMS:            get_transforms(max_rotate=180, flip_vert=True, max_zoom=1.4)
+PRETRAINED:      False 
+NORMALIZE:       Data
+
+TRAINING:        OPT: Radam
+                 Policy: Cosine Anneal 
+                 flattenAnneal(lr=0.0028, epoch=50, decay_start=0.68)-Unfrozen
+           
+
+MODEL WEIGHTS:   [NB_EXP_70_CV_6_224_PHASE_1_COS.pth]
+MODEL TRN_LOSS:  0.045853 	
+MODEL VAL_LOSS:  0.054660	
+ACCURACY THRES:  0.980348
+LB SCORE:         (SUB_NAME: NB_EXP_40_CV_0_TFL_224_BGS_PHASE_2_COS.csv)
+LB SCORE_TTA:     (SUB_NAME: NB_EXP_40_CV_0_TFL_224_BGS_PHASE_2_COS_TTA.csv)
 ```
