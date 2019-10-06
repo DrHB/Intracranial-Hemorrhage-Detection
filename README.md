@@ -21,8 +21,8 @@ In this competition, your challenge is to build an algorithm to detect acute int
 | EXP_40                | xresnet50      | True             | Attention       | 224| 40/80, 80/200, 200/450                 | 0.980348 |0.083  | 0.074 |  3 channel diffrent windows, background substractued, trained using `EXP_10_MIXUP` weights|
 | EXP_50                | EfficientNetB3  | True | weighted loss  | 300| 40/80, 80/200, 200/450  | 0.979881 |0.076| 0.071 |  ||
 | EXP_60    | Res2Net50      | True           |   | 224| 40/80, 50/175, 500/3000  | 0.980367 |0.082  | 0.072 | |
-| EXP_70    | xresnet50      | False           | Attn  | 300| 40/80, 50/175, 500/3000  |  |  |  | |
-| EXP_80    | xresnet50      | False           |   | 224| 40/80, 80/200, 200/450   |  ||  | |
+| EXP_70    | xresnet50      | False           | Attn, weighted loss   | 300| 40/80, 50/175, 500/3000  |  |  |  | |
+| EXP_80    | xresnet50      | False           | weighted loss   | 224| 40/80, 80/200, 200/450   |  ||  | |
 
 ## Setup
 - Convert Ddicom formant to .png. (Since we are dealing with CT scans its important to select window so far I have been using 40/40 for more details check `src/dicom_to_png.py`) -> After conversion png files are `512x512`
