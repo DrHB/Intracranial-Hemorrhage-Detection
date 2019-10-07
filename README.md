@@ -22,8 +22,8 @@ In this competition, your challenge is to build an algorithm to detect acute int
 | EXP_50                | EfficientNetB3  | True | weighted loss  | 300| 40/80, 80/200, 200/450  | 0.979881 |0.076| 0.071 |  ||
 | EXP_60    | Res2Net50      | True           |   | 224| 40/80, 50/175, 500/3000  | 0.980367 |0.082  | 0.072 | |
 | EXP_70    | xresnet50      | False           | Attn, weighted loss   | 300| 40/80, 50/175, 500/3000  |  |  |  | |
-| EXP_80    | xresnet50      | False           | weighted loss   | 224| 40/80, 80/200, 200/450   | 0.979646 |0.079|0.081  | |
-
+| EXP_80    | xresnet50      | False           | weighted loss   | 224| 40/80, 80/200, 200/450   | 0.979646 |0.079|0.081||
+| EXP_90    | EfficientNetB0  | True           |    | 224| 40/80, 80/200, 200/450   | 0.981537 |0.094|0.075||
 ## Setup
 - Convert Ddicom formant to .png. (Since we are dealing with CT scans its important to select window so far I have been using 40/40 for more details check `src/dicom_to_png.py`) -> After conversion png files are `512x512`
 - One dicom file was corupted please run `src/00_DICOM_PNG.ipynb` to adjust train dataframe
@@ -320,6 +320,38 @@ ACCURACY THRES:  0.979646
 LB SCORE:        0.799 (SUB_NAME: NB_EXP_80_CV_0_224_PHASE_2_COS.csv)
 LB SCORE_TTA:    0.081 (SUB_NAME: NB_EXP_80_CV_0_224_PHASE_2_COS_TTA.csv)
 ```
+
+
+#### EXP_90
+Using same data processing as for `src/dicom_to_png_3chn_bg.py`. 
+
+```
+MODEL:           EfficientNet-B0
+NUM_CLASSES:     6
+BS:              512
+SZ:              224
+VALID:           1 FOLD CV (FOLD=6) (10 Fold)
+TFMS:            get_transforms(max_rotate=180,
+                                flip_vert=True,
+                                max_zoom=1.4, 
+                                max_lighting=0.3, 
+                                xtra_tfms=cutout(n_holes=(10, 50), length=(9, 35), p=0.7)
+PRETRAINED:      True 
+NORMALIZE:       Imagenet
+
+TRAINING:        OPT: Adam
+                 Policy: OneCycle 
+                 fit_one_cycle(lr=0.003, epoch=50, pct_)-Unfrozen
+           
+
+MODEL WEIGHTS:   [NB_EXP_80_CV_0_224_PHASE_1_COS.pth]
+MODEL TRN_LOSS:  0.075873 	
+MODEL VAL_LOSS:  0.052711	 
+ACCURACY THRES:  0.981537
+LB SCORE:        0.093 (SUB_NAME: NB_EXP_90_CV_0_224_PHASE_2_COS.csv)
+LB SCORE_TTA:    0.075 (SUB_NAME: NB_EXP_90_CV_0_224_PHASE_2_COS_TTA.csv)
+```
+
 
  ### DATA processing 
  
