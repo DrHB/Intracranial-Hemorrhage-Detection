@@ -433,3 +433,67 @@ from now I will use `5-fold StratifiedKFold` split (called: `val_idx.joblib`). a
 1) `EXP_200s` Simple one window (40/80) converted to 3 channel png using `src/dicom_to_png.py`
 2) `EXP_300s` Make 3 channel RGB Image with 3 diffrent windo sizes `40/80`, `80/200` and very wide `200/450`. When doing this I also notice that there is also a lot of black backround. To remove black background and convert images to 3 channel from dicom files use script `src/dicom_to_png_3chn_bg.py`
 3) `EXP_400s` This time I am using diffrent windows to process images, indows used were brain window (l = 40, w = 80), subdural window (l = 50, w = 175), bone window (l = 500, w = 3000) https://arxiv.org/pdf/1803.05854.pdf. The script located here: `src/dicom_to_png_3chn_sasanak.py`.
+
+
+## EXP_300s
+data processing script:`src/dicom_to_png.py`
+#### EXP_300
+Testing for 30 epoch 1 cycle policy 
+
+```
+MODEL:           EfficientNet-B0
+NUM_CLASSES:     6
+BS:              512
+SZ:              224
+VALID:           5 FOLD_SPLIT (FOLD - 0)
+TFMS:            get_transforms(max_rotate=245,
+                                flip_vert=True,
+                                max_zoom=1.4, 
+                                max_lighting=0.3)
+PRETRAINED:      True 
+NORMALIZE:       Imagenet
+
+TRAINING:        OPT: Adam
+                 Policy: OneCycle 
+                 fit_one_cycle(lr=0.003, epoch=30, pct_start=0.2, wd=1e-2)-Unfrozen
+           
+
+MODEL WEIGHTS:   [NB_EXP_80_CV_0_224_PHASE_1_COS.pth]
+MODEL TRN_LOSS:   	
+MODEL VAL_LOSS:  	 
+ACCURACY THRES:  
+LB SCORE:         (SUB_NAME: NB_EXP_90_CV_0_224_PHASE_2_COS.csv)
+LB SCORE_TTA:     (SUB_NAME: NB_EXP_90_CV_0_224_PHASE_2_COS_TTA.csv)
+```
+
+
+## EXP_400s
+data processing script:`src/dicom_to_png.py`
+#### EXP_400
+Testing radam with cosine annel for 30 epoch
+
+```
+MODEL:           EfficientNet-B0
+NUM_CLASSES:     6
+BS:              512
+SZ:              224
+VALID:           5 FOLD_SPLIT (FOLD - 0)
+TFMS:            get_transforms(max_rotate=320,
+                                flip_vert=True,
+                                max_zoom=1.5, 
+                                max_lighting=0.3)
+PRETRAINED:      True 
+NORMALIZE:       Imagenet
+
+TRAINING:        OPT: partial(Ranger, betas=(0.92,0.99), eps=1e-6)
+                 Policy: CosineAneal 
+                 flattenAnneal(lr=0.002, epoch=30, pct_start=0.7, wd=1e-2)-Unfrozen
+           
+
+MODEL WEIGHTS:   [NB_EXP_80_CV_0_224_PHASE_1_COS.pth]
+MODEL TRN_LOSS:   	
+MODEL VAL_LOSS:  	 
+ACCURACY THRES:  
+LB SCORE:         (SUB_NAME: NB_EXP_90_CV_0_224_PHASE_2_COS.csv)
+LB SCORE_TTA:     (SUB_NAME: NB_EXP_90_CV_0_224_PHASE_2_COS_TTA.csv)
+```
