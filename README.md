@@ -431,7 +431,5 @@ after we get predictions we have to do `preds = torch.sigmoid(preds)`
 from now I will use `5-fold StratifiedKFold` split (called: `val_idx.joblib`). and correct losss. I will devide my experiments in to 3 based on dataset and processing:
 
 1) `EXP_200s` Simple one window (40/80) converted to 3 channel png using `src/dicom_to_png.py`
-
 2) `EXP_300s` Make 3 channel RGB Image with 3 diffrent windo sizes `40/80`, `80/200` and very wide `200/450`. When doing this I also notice that there is also a lot of black backround. To remove black background and convert images to 3 channel from dicom files use script `src/dicom_to_png_3chn_bg.py`
-
-3)`EXP_400s` This time I am using diffrent windows to process images, indows used were brain window (l = 40, w = 80), subdural window (l = 50, w = 175), bone window (l = 500, w = 3000) https://arxiv.org/pdf/1803.05854.pdf. The script located here: `src/dicom_to_png_3chn_sasanak.py`.
+3) `EXP_400s` This time I am using diffrent windows to process images, indows used were brain window (l = 40, w = 80), subdural window (l = 50, w = 175), bone window (l = 500, w = 3000) https://arxiv.org/pdf/1803.05854.pdf. The script located here: `src/dicom_to_png_3chn_sasanak.py`.
