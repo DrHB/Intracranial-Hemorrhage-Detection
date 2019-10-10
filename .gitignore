@@ -177,3 +177,4 @@ x509.genkey
 /train_images__3chn_bg_300
 /test_images_3chn_sas*
 /train_images_3chn_sas*
+/DATA_with_PATIENT_ID.csv
