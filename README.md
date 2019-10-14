@@ -17,6 +17,7 @@ In this competition, your challenge is to build an algorithm to detect acute int
 | EXP_10_MIXUP          | xresnet50      | False            | Attention+Mixup | 224| 40/80                 | 0.979283 |0.084  | 0.074 | Same as above but trained a bi longer |
 | EXP_10_MIXUP_TFL_512  | xresnet50      | True             | Attention+Mixup | 512| 40/80                 | 0.980179 |0.077  | 0.072 | Trained on higher image size and did transfer learning  |
 | EXP_20                | Res2Net50      | False            |                 | 224| 40/80                 | 0.978431 |0.084  | 0.079 |  |
+| EXP_20                | Res2Net50      | False            |                 | 512| 40/80                 | 0.979002 |0.076  | 0.074 |  |
 | EXP_30                | Resnext50      | True             |                 | 224| 40/80                 | 0.980641 |0.095  | 0.079 | added cutout, zoom_rand=1.4 |
 | EXP_40                | xresnet50      | True             | Attention       | 224| 40/80, 80/200, 200/450                 | 0.980348 |0.083  | 0.074 |  3 channel diffrent windows, background substractued, trained using `EXP_10_MIXUP` weights|
 | EXP_50                | EfficientNetB3  | True | weighted loss  | 300| 40/80, 80/200, 200/450  | 0.979881 |0.076| 0.071 |  ||
@@ -190,7 +191,7 @@ Training stop att the epoch 12. I did not continue training further
                   Policy: Cosine Anneal 
                   flattenAnneal(lr=1e-3/8, epoch=20, decay_start=0.7)-Unfrozen
 
- MODEL WEIGHTS:   [NB_EXP_20_CV_0_PHASE_2_COS.pth]
+ MODEL WEIGHTS:   [NB_EXP_20_CV_0_PHASE_1_COS.pth]
  MODEL TRN_LOSS:  0.053704
  MODEL VAL_LOSS:  0.059312
  ACCURACY THRES:  0.978431
@@ -198,7 +199,34 @@ Training stop att the epoch 12. I did not continue training further
  LB SCORE_TTA:    0.079 (SUB_NAME: NB_EXP_20_CV_0_COS_TTA.csv)
  ```
  Comments: Training from scratch shows similar results
+ 
+ 
+Ok lets continue with increasing the image size and doing
 
+ ```
+ MODEL:           Res2Net50
+ NUM_CLASSES:     6
+ BS:              64
+ SZ:              512
+ VALID:           1 FOLD CV (FOLD=0)
+ TFMS:            get_transform()
+ PRETRAINED:      True (NB_EXP_20_CV_0_PHASE_1_COS.pth)
+ NORMALIZE:       Data
+
+ TRAINING:        OPT: Radam
+                  Policy: Cosine Anneal 
+                  flattenAnneal(lr=1e-2/8, epoch=10, decay_start=0.7)-Unfrozen
+
+ MODEL WEIGHTS:   [NB_EXP_20_CV_0_PHASE_2_COS.pth]
+ MODEL TRN_LOSS:  0.051353
+ MODEL VAL_LOSS:  0.057057
+ ACCURACY THRES:  0.979002
+ LB SCORE:        0.076 (SUB_NAME: NB_EXP_20_CV_0_2_COS.csv)
+ LB SCORE_TTA:    0.074 (SUB_NAME: NB_EXP_20_CV_0_2_COS_TTA.csv)
+ ```
+
+
+Higher Image resolution yields good results
 
 
 ### EXP_30.ipynb
