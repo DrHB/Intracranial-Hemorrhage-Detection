@@ -25,6 +25,8 @@ In this competition, your challenge is to build an algorithm to detect acute int
 | EXP_70    | xresnet50      | False           |   | 300| 40/80, 50/175, 500/3000  |  |  |  | |
 | EXP_80    | xresnet50      | False           | weighted loss   | 224| 40/80, 80/200, 200/450   | 0.979646 |0.079|0.081||
 | EXP_90    | EfficientNetB0  | True           |    | 224| 40/80, 80/200, 200/450   | 0.981537 |0.094|0.075||
+| EXP_310    | EfficientNetB4 | True           |    | 380| 40/80, 80/200, 200/450   | 0.978151 |0.071|0.072||
+
 ## Setup
 - Convert Ddicom formant to .png. (Since we are dealing with CT scans its important to select window so far I have been using 40/40 for more details check `src/dicom_to_png.py`) -> After conversion png files are `512x512`
 - One dicom file was corupted please run `src/00_DICOM_PNG.ipynb` to adjust train dataframe
@@ -441,6 +443,37 @@ ACCURACY THRES:  0.980923
 LB SCORE:         (SUB_NAME: NB_EXP_70_CV_6_224_PHASE_1_COS.csv)
 LB SCORE_TTA:    0.824 (SUB_NAME: NB_EXP_70_CV_6_224_PHASE_1_COS_TTA.csv)
 ```
+#### EXP_310
+Using same data processing as for EXP_60. But this time i am using weights. My mistake was that i used `pos_weights` in Pytorch BCE, but instead I should use just `weights` and pass `weights = torch.FloatTensor([2, 1, 1, 1, 1, 1]).cuda()`. Also using eff `b4`.
+
+
+data processing: `src/dicom_to_png_3chn_bg.py`. 
+
+```
+MODEL:           EfficientNet-B4
+NUM_CLASSES:     6
+BS:              184
+SZ:              380
+VALID:           1 FOLD CV (FOLD=0) (10 Fold)
+TFMS:            get_transforms(max_rotate=180, flip_vert=True, max_zoom=1.3)
+
+PRETRAINED:      True 
+NORMALIZE:       Imagenet
+
+TRAINING:        OPT: Adam
+                 Policy: OneCycle 
+                 fit_one_cycle(lr=1e-2/3, epoch=7,)-Unfrozen
+           
+
+MODEL WEIGHTS:   [NB_EXP_310_CV_0_380_UNFRZ.pth]
+MODEL TRN_LOSS:  0.065647 	
+MODEL VAL_LOSS:  0.065829 
+ACCURACY THRES:  0.978151
+LB SCORE:        0.071 (SUB_NAME: NB_EXP_310_CV_0_380_PHASE_1_COS.csv)
+LB SCORE_TTA:    0.072 (SUB_NAME: NB_EXP_310_CV_0_380_PHASE_1_COS_TTA.csv)
+```
+With Weight it shoule very closee correlation between cv and lb (Please use `PHASE_1` for submision)
+
 ____________________________________________________________
 # OCT-8 UPDATED START
 Finally after some playing around I manage to correctly implement loss function with weights in fastai. The problem was that if you apply weight and get prediction it wont be sigmoid.. so after predcition I have to take `torch.sigmoid`. Now my loss function resemeblce public score perfectly. 
