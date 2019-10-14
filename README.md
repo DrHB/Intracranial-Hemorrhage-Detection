@@ -17,7 +17,7 @@ In this competition, your challenge is to build an algorithm to detect acute int
 | EXP_10_MIXUP          | xresnet50      | False            | Attention+Mixup | 224| 40/80                 | 0.979283 |0.084  | 0.074 | Same as above but trained a bi longer |
 | EXP_10_MIXUP_TFL_512  | xresnet50      | True             | Attention+Mixup | 512| 40/80                 | 0.980179 |0.077  | 0.072 | Trained on higher image size and did transfer learning  |
 | EXP_20                | Res2Net50      | False            |                 | 224| 40/80                 | 0.978431 |0.084  | 0.079 |  |
-| EXP_20                | Res2Net50      | False            |                 | 512| 40/80                 | 0.979002 |0.076  | 0.074 |  |
+| EXP_20                | Res2Net50      | False            |                 | 512| 40/80                 | 0.979002 |0.076  | 0.074 | Did trasnfer learning from Above EXP_20, trained on 224 |
 | EXP_30                | Resnext50      | True             |                 | 224| 40/80                 | 0.980641 |0.095  | 0.079 | added cutout, zoom_rand=1.4 |
 | EXP_40                | xresnet50      | True             | Attention       | 224| 40/80, 80/200, 200/450                 | 0.980348 |0.083  | 0.074 |  3 channel diffrent windows, background substractued, trained using `EXP_10_MIXUP` weights|
 | EXP_50                | EfficientNetB3  | True | weighted loss  | 300| 40/80, 80/200, 200/450  | 0.979881 |0.076| 0.071 |  ||
