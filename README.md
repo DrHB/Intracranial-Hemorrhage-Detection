@@ -476,15 +476,8 @@ With Weight it shoule very closee correlation between cv and lb (Please use `PHA
 
 ____________________________________________________________
 # OCT-8 UPDATED START
-Finally after some playing around I manage to correctly implement loss function with weights in fastai. The problem was that if you apply weight and get prediction it wont be sigmoid.. so after predcition I have to take `torch.sigmoid`. Now my loss function resemeblce public score perfectly. 
-```
-weights = np.array([2.0, 1.0, 1.0, 1.0, 1.0, 1.0])
-def my_loss(y_pred,y_true,weights = torch.FloatTensor(weights).cuda()):
-    return F.binary_cross_entropy_with_logits(y_pred,
-                                  y_true,
-                                  weights)
-                                  
-```
+
+
 
 after we get predictions we have to do `preds = torch.sigmoid(preds)`
 
