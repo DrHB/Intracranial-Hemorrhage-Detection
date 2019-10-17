@@ -182,3 +182,8 @@ x509.genkey
 /train_images__3chn_bg_300
 /test_images_3chn_bg_380
 /train_images_3chn_bg_380
+/kaggle-rsna-intracranial-hemorrhage
+/train_images_3chn_bg
+/test_images_3chn_bg
+/train_images_3chn_bg_380
+/test_images_3chn_bg_380
