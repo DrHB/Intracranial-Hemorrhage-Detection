@@ -149,9 +149,13 @@ transform_train = albu.Compose([
             albu.HorizontalFlip(),
             albu.OneOf([
                 albu.ShiftScaleRotate(shift_limit=.01, rotate_limit=20),
+                albu.GridDistortion(num_steps=10, distort_limit=.2),
                 albu.ElasticTransform(alpha_affine=10),
             ], p=1),
-            albu.RandomBrightnessContrast(),
+            albu.OneOf([
+                albu.RandomBrightnessContrast(),
+                albu.RandomGamma(),
+            ], p=1),
             albu.Normalize(p=1),
             ToTensor(),
         ])
