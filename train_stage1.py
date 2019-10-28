@@ -240,7 +240,7 @@ for epoch in range(max_epochs):
         print('Better model, saving')
         torch.save(model.state_dict(), os.path.join(ckpt_folder, 'stage1_best.pth'))
         torch.save(model.state_dict(), os.path.join(ckpt_folder, 'stage1_'+str(epoch)+'.pth'))
-        torch.save((args, logs, val_logs), os.path.join(ckpt_folder,'stage1_loss_stats.pth'))
+        torch.save((args, train_patients, val_patients, logs, val_logs), os.path.join(ckpt_folder,'stage1_loss_stats.pth'))
     else:
         ea_patience += 1
         # If exceeds 2 cycles
