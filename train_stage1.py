@@ -31,8 +31,10 @@ def get_args():
     parser.add_argument('--dir_test_img', type=str, default=None, help='Where the test dcm are, else root/data/original_data/stage_1_test_images')
     parser.add_argument('--cache_folder', type=str, default=None, help='Where to cache preprocessed images (windowing), else root//data/bsb_cache')
     parser.add_argument('--max_epochs', type=int, default=13)
-    parser.add_argument('--batch_size', type=int, default=32)
+    parser.add_argument('--batch_size', type=int, default=48)
     parser.add_argument('--n_classes', type=int, default=6)
+    parser.add_argument('--img_size', type=int, default=224)
+    parser.add_argument('--centercrop_size', type=int, default=200)
     parser.add_argument('--val_batch_size', type=int, default=64, help='to enable faster validation')
     parser.add_argument('--n_cpus', type=int, default=8)
     parser.add_argument('--num_folds', type=int, default=5)
@@ -45,6 +47,7 @@ args = get_args()
 root, dir_csv, dir_train_img, dir_test_img, cache_folder = args.root, args.dir_csv, args.dir_train_img, args.dir_test_img, args.cache_folder
 gpu_idx, max_epochs, batch_size, val_batch_size, n_cpus = args.gpu_idx, args.max_epochs, args.batch_size, args.val_batch_size, args.n_cpus
 num_folds, val_fold, n_classes = args.num_folds, args.val_fold, args.n_classes
+img_size, centercrop_size = args.img_size, args.centercrop_size
 experiment_name = args.experiment_name
 model_name = args.model_name
 
@@ -144,8 +147,8 @@ test.drop_duplicates(inplace=True)
 test = test.reset_index()
 
 transform_train = albu.Compose([
-            Resize(224, 224),
-            CenterCrop(200, 200),
+            Resize(img_size, img_size),
+            CenterCrop(centercrop_size, centercrop_size),
             albu.HorizontalFlip(),
             albu.OneOf([
                 albu.ShiftScaleRotate(shift_limit=.01, rotate_limit=20),
@@ -160,8 +163,8 @@ transform_train = albu.Compose([
             ToTensor(),
         ])
 transform_test = albu.Compose([
-            Resize(224, 224),
-            CenterCrop(200, 200),
+            Resize(img_size, img_size),
+            CenterCrop(centercrop_size, centercrop_size),
             albu.HorizontalFlip(),
             albu.Normalize(p=1),
             ToTensor(),
